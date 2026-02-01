@@ -1,6 +1,6 @@
 services:
   aiostreams:
-    image: ghcr.io/viren070/aiostreams:${AIOSTREAMS_TAG:-latest}
+    image: ghcr.io/viren070/aiostreams:nightly
     container_name: aiostreams
     restart: unless-stopped
     expose:
