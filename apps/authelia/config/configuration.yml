@@ -105,7 +105,8 @@ server:
     authz:
       forward-auth:
         implementation: 'ForwardAuth'
-        # authn_strategies: []
+        authn_strategies:
+          - name: 'CookieSession'
       # ext-authz:
         # implementation: 'ExtAuthz'
         # authn_strategies: []
