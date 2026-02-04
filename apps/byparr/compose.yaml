@@ -11,6 +11,35 @@ services:
       - traefik.http.routers.byparr.entrypoints=websecure
       - traefik.http.routers.byparr.tls.certresolver=letsencrypt
       - traefik.http.routers.byparr.middlewares=authelia@docker
+
+      
+      - traefik.enable=true
+      - traefik.http.routers.byparr.rule=Host(`${BYPARR_HOSTNAME?}`)
+      - traefik.http.routers.byparr.entrypoints=https
+      - traefik.http.routers.byparr.tls=true
+      - traefik.http.services.byparr.loadbalancer.server.port=3000
+      - traefik.http.routers.byparr.service=byparr
+      - homepage.group=Automation
+      - homepage.name=Byparr
+      - homepage.icon=byparr.png
+      - homepage.href=https://${BYPARR_HOSTNAME?}
+      - homepage.description=Self-hosted bypass and automation utility
+
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.byparr-https.rule=Host(`byparr.${DOMAIN}`)"
+      - "traefik.http.routers.byparr-https.entrypoints=https"
+      - "traefik.http.routers.byparr-https.tls=true"
+      - "traefik.http.routers.byparr-https.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.byparr-https.service=byparr"
+      - "traefik.http.routers.byparr-http.rule=Host(`byparr.${DOMAIN}`)"
+      - "traefik.http.routers.byparr-http.entrypoints=http"
+      - "traefik.http.routers.byparr-http.middlewares=redirect-https"
+      - "traefik.http.routers.byparr-http.service=byparr"
+      - "traefik.http.services.byparr.loadbalancer.server.port=8191"
+      - "traefik.http.middlewares.redirect-https.redirectScheme.scheme=https"
+      - "traefik.http.middlewares.redirect-https.redirectScheme.permanent=true"
+      
     volumes:
       - ${DOCKER_DATA_DIR}/byparr/screenshots:/app/screenshots 
     healthcheck:
