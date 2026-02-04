@@ -5,6 +5,12 @@ services:
     restart: unless-stopped
     environment:
       - LOG_LEVEL=INFO
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.byparr.rule=Host(`${BYPARR_HOSTNAME?}`)
+      - traefik.http.routers.byparr.entrypoints=websecure
+      - traefik.http.routers.byparr.tls.certresolver=letsencrypt
+      - traefik.http.routers.byparr.middlewares=authelia@docker
     volumes:
       - ${DOCKER_DATA_DIR}/byparr/screenshots:/app/screenshots 
     healthcheck:
